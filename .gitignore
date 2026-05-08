@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+.venv
 # Distribution / packaging
 .Python
 build/
@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.alembic.ini
+.env.local
+.env
