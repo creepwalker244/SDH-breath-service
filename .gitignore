@@ -220,3 +220,7 @@ __marimo__/
 .alembic.ini
 .env.local
 .env
+
+.vscode
+
+alembic.ini

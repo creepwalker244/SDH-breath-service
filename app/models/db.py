@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, String, Integer, Boolean
+from sqlalchemy import Column, Float, String, Integer, Boolean, DateTime
 from sqlalchemy.orm import DeclarativeBase
 
 
@@ -26,10 +26,18 @@ class CalculationParams(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
-    params = Column(String)
+#    params = Column(String)
     storage_temperature = Column(Float)
-    start_pressure = Column(Integer)
+    base_pressure = Column(Integer)
+    z_value_base = Column(Float)
     work_pressure = Column(Integer)
-    z_value = Column(Float, default='(work_pressure - start_pressure) / (storage_temperature - work_temperature)')
+    work_time_start = Column(DateTime)
+    end_pressure = Column(Integer)
+    work_time_end = Column(DateTime)
+    total_time = Column(Integer, default='work_time_end - work_time_start')
+    z_value_work = Column(Float)
     work_temperature = Column(Float)
-    target_pressure = Column(Integer , default='(work_pressure - start_pressure) / (storage_temperature - work_temperature)')
+    target_pressure = Column(Float)
+    target_temperature = Column(Float)
+    true_volume = Column(Float)
+    baloon_volume = Column(Float)

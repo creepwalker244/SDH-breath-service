@@ -1,6 +1,9 @@
 from fastapi import status, Body, APIRouter
 from fastapi.responses import JSONResponse
 
+from app.models.models import CalculationParamsCreate
+from app.controllers.controllers import CalculationParamsCreateController
+
 breath_routes = APIRouter()
 
 
@@ -26,5 +29,6 @@ async def healthcheck_integrations():
 """
 
 @breath_routes.post("/calculate/", status_code=status.HTTP_200_OK)
-async def calculate():
-    pass
+async def calculate(calculation_params: CalculationParamsCreate = Body(...)):
+    params = CalculationParamsCreate(**calculation_params.model_dump())
+    return await CalculationParamsCreateController.calculate_true_preasure(params)

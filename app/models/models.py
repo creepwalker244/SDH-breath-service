@@ -1,6 +1,6 @@
 # app/models/models.py
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Required
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 from enum import Enum
 
@@ -94,28 +94,35 @@ class UserInDB(BaseModel):
 class CalculationParamsBase(BaseModel):
     """Базовая модель параметров расчета"""
     storage_temperature: float = Field(..., gt=-273.15, examples=[20.5])
-    start_pressure: int = Field(..., gt=0, examples=[100])
+    base_pressure: int = Field(..., gt=0, examples=[100])
     work_pressure: int = Field(..., gt=0, examples=[150])
     work_temperature: float = Field(..., gt=-273.15, examples=[80.0])
     
-    @field_validator('storage_temperature', 'work_temperature')
-    @classmethod
-    def validate_temperature(cls, v: float) -> float:
-        if v < -273.15:  # Абсолютный ноль
-            raise ValueError('Temperature cannot be below absolute zero (-273.15°C)')
-        return v
+    #@field_validator('storage_temperature', 'work_temperature')
+    #@classmethod
+    #def validate_temperature(cls, v: float) -> float:
+    #    if v < -273.15:  # Абсолютный ноль
+    #        raise ValueError('Temperature cannot be below absolute zero (-273.15°C)')
+    #    return v
     
-    @field_validator('start_pressure', 'work_pressure')
-    @classmethod
-    def validate_pressure(cls, v: int) -> int:
-        if v <= 0:
-            raise ValueError('Pressure must be positive')
-        return v
+    #@field_validator('start_pressure', 'work_pressure')
+    #@classmethod
+    #def validate_pressure(cls, v: int) -> int:
+    #    if v <= 0:
+    #        raise ValueError('Pressure must be positive')
+    #    return v
 
 
-class CalculationParamsCreate(CalculationParamsBase):
-    """Модель для создания параметров расчета - без вычисляемых полей"""
-    user_id: int = Field(..., gt=0, examples=[1])
+class CalculationParamsCreate(BaseModel):
+    user_id: int = Field(..., gt=0)
+    storage_temperature: float | None = Field(None, gt=-273.15)
+    base_pressure: int | None = Field(None, gt=0)
+    work_pressure: int = Field(..., gt=0) 
+    work_time_start: datetime | None = None
+    end_pressure: int = Field(..., gt=0)
+    work_time_end: datetime | None = None
+    total_time: int | None = None
+    baloon_volume: float = Field(..., gt=0.0)
 
 
 class CalculationParamsUpdate(BaseModel):

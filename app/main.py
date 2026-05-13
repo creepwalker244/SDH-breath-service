@@ -6,8 +6,8 @@ app = FastAPI()
 
 app.include_router(breath_routes)
 
-#TODO: создать бд в облачном инстансе
-#TODO: провериь целостность моделей
-#TODO: проверить работу АПИ
-#TODO: накидать функцию коэфециена сжатия
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
 #TODO: провести миграцию
