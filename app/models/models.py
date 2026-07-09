@@ -116,10 +116,10 @@ class CalculationParamsBase(BaseModel):
 class CalculationParamsCreate(BaseModel):
     user_id: int = Field(..., gt=0)
     storage_temperature: float | None = Field(None, gt=-273.15)
-    base_pressure: int | None = Field(None, gt=0)
-    work_pressure: int = Field(..., gt=0) 
+    base_pressure: int | None = Field(None, gt=259, lt=400)
+    work_pressure: int = Field(..., gt=0, lt=400) 
     work_time_start: datetime | None = None
-    end_pressure: int = Field(..., gt=0)
+    end_pressure: int = Field(..., gt=0, lt=400)
     work_time_end: datetime | None = None
     total_time: int | None = None
     baloon_volume: float = Field(..., gt=0.0)
